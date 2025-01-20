@@ -1,0 +1,22 @@
+# Services for local development only
+
+version: "3"
+
+services:
+  local-mongo:
+    image: mongo:6.0.20-jammy
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: admin
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+    tty: true
+    volumes:
+      - local-xml-transform-data:/data/db
+      - ./mongodb:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  local-xml-transform-data:

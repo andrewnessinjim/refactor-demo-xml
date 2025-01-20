@@ -1,0 +1,26 @@
+{
+  "name": "xml-transform",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "xslt3": "xslt3",
+    "compile": "xslt3 -xsl:D:\\Projects\\xml-transform\\files\\stylesheet.xsl -export:D:\\Projects\\xml-transform\\files\\stylesheet.sef.json -nogo",
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "example_user <example-user@email.com>",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "koa": "^2.15.3",
+    "koa-json": "^2.0.2",
+    "koa-router": "^13.0.1",
+    "mongodb": "6.12",
+    "saxon-js": "^2.7.0",
+    "xslt3": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

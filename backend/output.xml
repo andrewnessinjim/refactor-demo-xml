@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<petSearchRequest xmlns:f="http://www.w3.org/2005/xpath-functions">
+   <metadata>
+      <requestTimestamp>#timestamp#</requestTimestamp>
+      <correlationId>#requestId#</correlationId>
+   </metadata>
+   <data>
+      <pet>dog</pet>
+      <searchCriteria>
+         <criterion>
+            <key>dogSize</key>
+            <value>S</value>
+         </criterion>
+         <criterion>
+            <key>isDogTrained</key>
+            <value>true</value>
+         </criterion>
+         <criterion>
+            <key>dogAge</key>
+            <value>B4</value>
+         </criterion>
+      </searchCriteria>
+   </data>
+</petSearchRequest>
