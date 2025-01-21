@@ -47,6 +47,14 @@ function PetForm({ petConfigData }: Props) {
               label={attribute.label}
               key={index}
               options={attribute.options}
+              value={formData[attribute.value]}
+              onChange={(value) =>
+                dispatch({
+                  type: "update",
+                  key: attribute.value,
+                  value: value,
+                })
+              }
             />
           );
         } else if (attribute.type === "boolean") {
