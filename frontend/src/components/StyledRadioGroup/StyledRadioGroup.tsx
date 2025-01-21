@@ -8,13 +8,18 @@ interface Props {
   options: {
     [key: string]: string;
   };
+  value: string;
+  onChange: (value: string) => void;
 }
 
-function StyledRadioGroup({ options }: Props) {
+function StyledRadioGroup({ options, value, onChange }: Props) {
   const id = React.useId();
-
   return (
-    <RadioGroup.Root className="flex gap-2 sm:gap-4">
+    <RadioGroup.Root
+      className="flex gap-2 sm:gap-4"
+      value={value}
+      onValueChange={onChange}
+    >
       {Object.keys(options).map((optionKey, index) => {
         const itemId = id + index;
         return (
@@ -24,7 +29,7 @@ function StyledRadioGroup({ options }: Props) {
               value={optionKey}
               id={itemId}
             >
-              <RadioGroup.Indicator className="grid place-items-center  w-full aspect-square rounded-full ">
+              <RadioGroup.Indicator className="grid place-items-center w-full aspect-square rounded-full ">
                 <motion.div
                   initial={{
                     scale: 0,
