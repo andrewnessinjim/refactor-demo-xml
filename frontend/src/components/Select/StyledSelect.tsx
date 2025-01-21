@@ -48,7 +48,7 @@ function StyledSelect({ options, placeholder, size, label, value, onChange }: Se
   return (
     <div
       className={`
-        flex flex-col items-baseline sm:flex-row
+        flex flex-col items-baseline sm:flex-row w-fit
         ${sizeConfig.gapBetweenElements} 
         ${sizeConfig.fontSize}
     `}

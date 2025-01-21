@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from 'next/navigation'
 import StyledSelect from "../Select";
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 
 function PetSelectUI({ petOptions }: Props) {
   const [selectedPet, setSelectedPet] = React.useState("");
+  const router = useRouter();
   return (
     <StyledSelect
       options={petOptions}
@@ -16,7 +18,10 @@ function PetSelectUI({ petOptions }: Props) {
       label="Pet"
       placeholder="--Select a pet--"
       value={selectedPet}
-      onChange={(value: string) => setSelectedPet(value)}
+      onChange={(value: string) => {
+        setSelectedPet(value);
+        router.push(`/${value}`);
+    }}
     />
   );
 }

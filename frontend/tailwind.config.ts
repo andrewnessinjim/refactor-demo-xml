@@ -13,7 +13,13 @@ export default {
         foreground: "var(--foreground)",
       },
       fontSize: {
-        "fluid-h1": "clamp(3rem, 2.7vw + 1.25rem, 5rem)",
+        "fluid-h1": "clamp(2.5rem, 2.7vw + 1.25rem, 5rem)",
+      },
+      margin: {
+        fluid: "clamp(2.5rem, 10vw, 5rem)",
+      },
+      height: {
+        fluid: "clamp(2.5rem, 10vw, 5rem)",
       },
     },
   },
