@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 
 import * as Select from "@radix-ui/react-select";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "@heroicons/react/16/solid";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid";
 import { motion } from "motion/react";
 
 export interface SelectProps {
-  options: { [key: string]: string };
+  options: JSX.Element;
   placeholder: string;
   size: "regular" | "large";
   id: string;
@@ -93,24 +89,8 @@ function StyledSelect({
             <Select.Viewport
               className={`bg-slate-800 ${sizeConfig.viewportPadding} rounded-md ${sizeConfig.width}`}
             >
-              {Object.keys(options).map((optionKey) => (
-                <Select.Item
-                  data-key={optionKey}
-                  key={optionKey}
-                  value={optionKey}
-                  className={`
-                  flex ${sizeConfig.gapBetweenElements} items-center
-                  p-1
-                  hover:bg-slate-900 focus:bg-slate-900`}
-                >
-                  <Select.ItemText>{options[optionKey]}</Select.ItemText>
-                  <Select.ItemIndicator>
-                    <CheckIcon className={`${sizeConfig.checkIconSize}`} />
-                  </Select.ItemIndicator>
-                </Select.Item>
-              ))}
+              {options}
             </Select.Viewport>
-
             <Select.ScrollDownButton />
             <Select.Arrow />
           </motion.div>

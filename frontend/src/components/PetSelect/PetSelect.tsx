@@ -1,10 +1,35 @@
-import PetSelectUI from "./PetSelectUI";
+"use client";
 
-async function PetSelect() {
-  const data = await fetch("http://localhost:4000/config/petList");
-  const petOptions: { [key: string]: string } = await data.json();
+import React, { JSX } from "react";
+import { useRouter } from "next/navigation";
+import StyledSelect from "../Select";
+import { Label } from "@radix-ui/react-label";
 
-  return <PetSelectUI petOptions={petOptions} />;
+interface Props {
+  petOptions: JSX.Element;
+}
+
+function PetSelect({ petOptions }: Props) {
+  const [selectedPet, setSelectedPet] = React.useState("");
+  const router = useRouter();
+  const id = React.useId() + "pet-select";
+
+  return (
+    <div className="flex flex-col sm:flex-row sm:gap-6 sm:items-baseline">
+      <Label className="text-xl font-bold">Pet</Label>
+      <StyledSelect
+        options={petOptions}
+        size="large"
+        id={id}
+        placeholder="--Select a pet--"
+        value={selectedPet}
+        onChange={(value: string) => {
+          setSelectedPet(value);
+          router.push(`/${value}`);
+        }}
+      />
+    </div>
+  );
 }
 
 export default PetSelect;
