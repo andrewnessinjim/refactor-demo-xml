@@ -1,4 +1,4 @@
-import StyledSelect from "@/components/Select";
+import AttributeSelect from "@/components/AttributeSelect";
 import React from "react";
 
 async function Pet({ params }) {
@@ -7,21 +7,10 @@ async function Pet({ params }) {
   const petConfig = await data.json();
   console.log(petConfig);
   return (
-    <div>
+    <div className="flex flex-col gap-4 p-12">
       {petConfig.map((attribute, index) => {
         if (attribute.type === "options") {
-          return (
-            <StyledSelect
-              key={index}
-              size="regular"
-              placeholder="--Select--"
-              label={attribute.label}
-              options={attribute.options.reduce((acc, cur) => {
-                acc[cur.value] = cur.label;
-                return acc;
-              }, {})}
-            />
-          );
+          return <AttributeSelect attribute={attribute} key={index} />;
         }
       })}
     </div>
