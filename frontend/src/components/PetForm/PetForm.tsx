@@ -14,7 +14,7 @@ interface Attribute {
   label: string;
   type: "options" | "boolean";
   options: Option[];
-  value: string;
+  valueName: string;
 }
 interface Props {
   petConfigData: Attribute[];
@@ -95,12 +95,12 @@ function PetForm({ petConfigData, pet }: Props) {
                 label={attribute.label}
                 key={index}
                 options={attribute.options}
-                value={formData[attribute.value]}
+                value={formData[attribute.valueName]}
                 onChange={(value) => {
                   setStatus("editing");
                   dispatch({
                     type: "update",
-                    key: attribute.value,
+                    key: attribute.valueName,
                     value: value,
                   });
                 }}
@@ -111,12 +111,12 @@ function PetForm({ petConfigData, pet }: Props) {
               <BooleanRadioGroup
                 label={attribute.label}
                 key={index}
-                value={formData[attribute.value]}
+                value={formData[attribute.valueName]}
                 onChange={(isChecked) => {
                   setStatus("editing");
                   dispatch({
                     type: "update",
-                    key: attribute.value,
+                    key: attribute.valueName,
                     value: isChecked,
                   });
                 }}

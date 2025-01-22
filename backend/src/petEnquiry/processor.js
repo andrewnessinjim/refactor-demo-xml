@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const SaxonJS = require("saxon-js");
 const { save } = require("./persistence");
-const { send } = require("../rabbitmq");
+const { send: sendPetEnquiryRequest } = require("../rabbitmq");
 
 // Define file paths
 const sourcePath = path.join(__dirname, "xsl", "dummy_source.xml");
@@ -29,7 +29,7 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
 async function processPetEnquiry(uiPayload) {
   const requestId = await save(uiPayload);
   const xmlPayload = uiPayloadToXMLPayload(uiPayload, requestId);
-  send(xmlPayload);
+  sendPetEnquiryRequest(xmlPayload);
 
   return {
     status: "success",

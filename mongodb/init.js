@@ -21,7 +21,7 @@ appDB.petsConfiguration.insertMany([
     attributes: [
       {
         label: "Size",
-        value: "dogSize",
+        valueName: "dogSize",
         type: "options",
         options: [
           { label: "Small", value: "S" },
@@ -30,13 +30,13 @@ appDB.petsConfiguration.insertMany([
         ],
       },
       {
-        label: "Trained",
-        value: "isDogTrained",
+        label: "Trained?",
+        valueName: "isDogTrained",
         type: "boolean",
       },
       {
         label: "Approximate Age",
-        value: "dogAge",
+        valueName: "dogAge",
         type: "options",
         options: [
           { label: "Puppy", value: "B1" },
@@ -54,7 +54,7 @@ appDB.petsConfiguration.insertMany([
     attributes: [
       {
         label: "Color",
-        value: "parrotColor",
+        valueName: "parrotColor",
         type: "options",
         options: [
           { label: "Red", value: "RED001" },
@@ -64,12 +64,12 @@ appDB.petsConfiguration.insertMany([
       },
       {
         label: "Can Talk?",
-        value: "canParrotTalk",
+        valueName: "canParrotTalk",
         type: "boolean",
       },
       {
-        label: "Requires Cage?",
-        value: "parrotNeedsCage",
+        label: "Needs Cage?",
+        valueName: "parrotNeedsCage",
         type: "boolean",
       },
     ],
@@ -80,7 +80,7 @@ appDB.petsConfiguration.insertMany([
     attributes: [
       {
         label: "Water",
-        value: "fishWater",
+        valueName: "fishWater",
         type: "options",
         options: [
           { label: "Freshwater", value: "fresh" },
@@ -89,12 +89,12 @@ appDB.petsConfiguration.insertMany([
       },
       {
         label: "Needs Heater?",
-        value: "fishNeedsHeater",
+        valueName: "fishNeedsHeater",
         type: "boolean",
       },
       {
         label: "Needs Filter?",
-        value: "fishNeedsFilter",
+        valueName: "fishNeedsFilter",
         type: "boolean",
       },
     ],
@@ -105,7 +105,7 @@ appDB.petsConfiguration.insertMany([
     attributes: [
       {
         label: "Color",
-        value: "hamsterColor",
+        valueName: "hamsterColor",
         type: "options",
         options: [
           { label: "Black", value: "BLACK006" },
@@ -115,13 +115,13 @@ appDB.petsConfiguration.insertMany([
         ],
       },
       {
-        label: "Needs Heater?",
-        value: "fishNeedsHeater",
+        label: "Needs a wheel?",
+        valueName: "hamsterNeedsWheel",
         type: "boolean",
       },
       {
-        label: "Needs Filter?",
-        value: "fishNeedsFilter",
+        label: "Lives alone?",
+        valueName: "hamsterNeedsToBeAlone",
         type: "boolean",
       },
     ],
