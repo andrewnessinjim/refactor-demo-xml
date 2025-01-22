@@ -18,5 +18,12 @@ services:
       - local-xml-transform-data:/data/db
       - ./mongodb:/docker-entrypoint-initdb.d:ro
 
+  local-rabitmq:
+    image: rabbitmq:4-management
+    hostname: xml-transform-rabbit
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
 volumes:
   local-xml-transform-data:

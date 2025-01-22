@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "xslt3": "xslt3",
-    "compile": "xslt3 -xsl:D:\\Projects\\xml-transform\\files\\stylesheet.xsl -export:D:\\Projects\\xml-transform\\files\\stylesheet.sef.json -nogo",
+    "compile-xsl": "xslt3 -xsl:src\\petEnquiry\\xsl\\petSearchRequest.xsl -export:src\\petEnquiry\\xsl\\petSearchRequest.sef.json -nogo",
     "start": "nodemon src/index.js"
   },
   "keywords": [],
@@ -13,7 +13,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "amqplib": "^0.10.5",
     "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
     "koa-json": "^2.0.2",
     "koa-router": "^13.0.1",
     "mongodb": "6.12",

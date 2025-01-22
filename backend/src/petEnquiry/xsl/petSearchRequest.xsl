@@ -5,6 +5,9 @@
   version="3.0">
 
   <xsl:param name="jsonData" as="xs:string" />
+  <xsl:param name="timestamp" as="xs:string" />
+  <xsl:param
+    name="requestId" as="xs:string" />
   <!-- <xsl:param name="name" as="xs:string"/> -->
   <xsl:output method="xml" indent="yes" />
 
@@ -13,15 +16,16 @@
     <xsl:variable name="jsonXml" select="json-to-xml($jsonData)" />
     <petSearchRequest>
       <metadata>
-        <requestTimestamp>#timestamp#</requestTimestamp>
-        <correlationId>#requestId#</correlationId>
+        <requestTimestamp>
+          <xsl:value-of select="$timestamp" />
+        </requestTimestamp>
+        <correlationId>
+          <xsl:value-of select="$requestId" />
+        </correlationId>
       </metadata>
       <data>
-        <pet>
-          <xsl:value-of select="$jsonXml/f:map/f:string[@key='pet']" />
-        </pet>
         <searchCriteria>
-          <xsl:for-each select="$jsonXml/f:map/f:map[@key='searchCriteria']/*">
+          <xsl:for-each select="$jsonXml/f:map/*">
             <criterion>
               <key>
                 <xsl:value-of select="@key" />
