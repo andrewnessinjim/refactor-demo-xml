@@ -2,6 +2,7 @@ const Koa = require("koa");
 const KoaRouter = require("koa-router");
 const jsonPrettier = require("koa-json");
 const bodyParser = require("koa-bodyparser");
+const cors = require("@koa/cors");
 
 const { getPetListForUI, getConfigForPet } = require("./petConfig");
 const { initRabbitMQ, send } = require("./rabbitmq");
@@ -14,6 +15,7 @@ const { processPetEnquiry } = require("./petEnquiry/processor");
 const app = new Koa();
 const router = new KoaRouter();
 
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(jsonPrettier());
 app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());

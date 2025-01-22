@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@koa/cors": "^5.0.0",
     "amqplib": "^0.10.5",
     "koa": "^2.15.3",
     "koa-bodyparser": "^4.4.1",

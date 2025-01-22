@@ -13,6 +13,7 @@ export interface SelectProps {
   id: string;
   value: string;
   onChange: (value: string) => void;
+  required: boolean;
 }
 
 const SIZES = {
@@ -42,6 +43,7 @@ function StyledSelect({
   id,
   value,
   onChange,
+  required = false,
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,6 +54,7 @@ function StyledSelect({
       onOpenChange={setIsOpen}
       onValueChange={onChange}
       value={value}
+      required={required}
     >
       <Select.Trigger
         id={id}

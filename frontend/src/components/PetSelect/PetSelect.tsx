@@ -18,6 +18,7 @@ function PetSelect({ petOptions }: Props) {
     <div className="flex flex-col sm:flex-row sm:gap-6 sm:items-baseline">
       <Label className="text-xl font-bold">Pet</Label>
       <StyledSelect
+        required={true}
         options={petOptions}
         size="large"
         id={id}

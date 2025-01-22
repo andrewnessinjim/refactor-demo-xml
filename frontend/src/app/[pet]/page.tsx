@@ -6,7 +6,7 @@ async function Pet({ params }) {
   const data = await fetch(`http://localhost:4000/config/pet/${pet}`);
   const petConfigData = await data.json();
 
-  return <PetForm petConfigData={petConfigData} />;
+  return <PetForm petConfigData={petConfigData} pet={pet}/>;
 }
 
 export default Pet;
