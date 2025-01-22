@@ -5,8 +5,10 @@ const petEnquiryRequestsCol = mongoClient
   .collection("petEnquiryRequests");
 
 async function save(petEnquiryUiPayload) {
-  petEnquiryRequestsCol.insertOne(petEnquiryUiPayload);
-  return petEnquiryUiPayload._id.toString();
+  const result = await petEnquiryRequestsCol.insertOne({
+    ...petEnquiryUiPayload,
+  });
+  return result.insertedId.toString();
 }
 
 module.exports = {
