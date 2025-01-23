@@ -1,12 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const SaxonJS = require("saxon-js");
 const { save } = require("./persistence");
 const { send: sendPetEnquiryRequest } = require("../rabbitmq");
 
-// Define file paths
-const sourcePath = path.join(__dirname, "xsl", "dummy_source.xml");
-const stylesheetPath = path.join(__dirname, "xsl", "petSearchRequest.sef.json");
 
 function uiPayloadToXMLPayload(uiPayload, requestId) {
 
@@ -15,11 +11,13 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
   let xmlPayload = sourceXML.replace("#pet#", uiPayload.pet);
   xmlPayload = xmlPayload.replace("#timestamp#", new Date().toISOString());
   xmlPayload = xmlPayload.replace("#requestId#", requestId);
+
   if (uiPayload.pet === "dog") {
     xmlPayload = xmlPayload.replace("#dogSize#", uiPayload.dogSize);
     xmlPayload = xmlPayload.replace("#isDogTrained#", uiPayload.isDogTrained);
     xmlPayload = xmlPayload.replace("#dogAge#", uiPayload.dogAge);
     return xmlPayload;
+
   } else if (uiPayload.pet === "fish") {
     xmlPayload = xmlPayload.replace("#fishWater#", uiPayload.fishWater);
     xmlPayload = xmlPayload.replace(
@@ -31,6 +29,7 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
       uiPayload.fishNeedsFilter
     );
     return xmlPayload;
+
   } else if (uiPayload.pet === "parrot") {
     xmlPayload = xmlPayload.replace("#parrotColor#", uiPayload.parrotColor);
     xmlPayload = xmlPayload.replace("#canParrotTalk#", uiPayload.canParrotTalk);
@@ -40,7 +39,6 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
     );
     return xmlPayload;
   }
-  return "Wait For It";
 }
 
 async function processPetEnquiry(uiPayload) {
