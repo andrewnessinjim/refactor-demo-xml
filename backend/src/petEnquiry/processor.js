@@ -8,22 +8,39 @@ const { send: sendPetEnquiryRequest } = require("../rabbitmq");
 const sourcePath = path.join(__dirname, "xsl", "dummy_source.xml");
 const stylesheetPath = path.join(__dirname, "xsl", "petSearchRequest.sef.json");
 
-const sourceXML = fs.readFileSync(sourcePath, "utf-8");
-const xsltStylesheet = fs.readFileSync(stylesheetPath, "utf-8");
-
 function uiPayloadToXMLPayload(uiPayload, requestId) {
-  const result = SaxonJS.transform({
-    stylesheetText: xsltStylesheet,
-    sourceText: sourceXML,
-    destination: "serialized",
-    stylesheetParams: {
-      jsonData: JSON.stringify(uiPayload),
-      timestamp: new Date().toISOString(),
-      requestId,
-    },
-  });
 
-  return result.principalResult;
+  const sourcePath = path.join(__dirname, "xml", `${uiPayload.pet}.xml`);
+  const sourceXML = fs.readFileSync(sourcePath, "utf-8");
+  let xmlPayload = sourceXML.replace("#pet#", uiPayload.pet);
+  xmlPayload = xmlPayload.replace("#timestamp#", new Date().toISOString());
+  xmlPayload = xmlPayload.replace("#requestId#", requestId);
+  if (uiPayload.pet === "dog") {
+    xmlPayload = xmlPayload.replace("#dogSize#", uiPayload.dogSize);
+    xmlPayload = xmlPayload.replace("#isDogTrained#", uiPayload.isDogTrained);
+    xmlPayload = xmlPayload.replace("#dogAge#", uiPayload.dogAge);
+    return xmlPayload;
+  } else if (uiPayload.pet === "fish") {
+    xmlPayload = xmlPayload.replace("#fishWater#", uiPayload.fishWater);
+    xmlPayload = xmlPayload.replace(
+      "#fishNeedsHeater#",
+      uiPayload.fishNeedsHeater
+    );
+    xmlPayload = xmlPayload.replace(
+      "#fishNeedsFilter#",
+      uiPayload.fishNeedsFilter
+    );
+    return xmlPayload;
+  } else if (uiPayload.pet === "parrot") {
+    xmlPayload = xmlPayload.replace("#parrotColor#", uiPayload.parrotColor);
+    xmlPayload = xmlPayload.replace("#canParrotTalk#", uiPayload.canParrotTalk);
+    xmlPayload = xmlPayload.replace(
+      "#parrotNeedsCage#",
+      uiPayload.parrotNeedsCage
+    );
+    return xmlPayload;
+  }
+  return "Wait For It";
 }
 
 async function processPetEnquiry(uiPayload) {
