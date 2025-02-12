@@ -49,7 +49,6 @@ export default async function RootLayout({
             <TitleTopSpacer />
             <h1 className="text-fluid-h1 text-center">Pet Enquiry</h1>
             <TitleBottomSpacer />
-            <PetSelect petOptions={<PetSelectOptions />} />
             {children}
           </motion.section>
         </motion.div>
