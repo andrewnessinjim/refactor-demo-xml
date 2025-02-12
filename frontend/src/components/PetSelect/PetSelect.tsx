@@ -7,10 +7,11 @@ import { Label } from "@radix-ui/react-label";
 
 interface Props {
   petOptions: JSX.Element;
+  initSelectedPet?: string;
 }
 
-function PetSelect({ petOptions }: Props) {
-  const [selectedPet, setSelectedPet] = React.useState("");
+function PetSelect({ petOptions, initSelectedPet = "" }: Props) {
+  const [selectedPet, setSelectedPet] = React.useState(initSelectedPet);
   const router = useRouter();
   const id = React.useId() + "pet-select";
 
