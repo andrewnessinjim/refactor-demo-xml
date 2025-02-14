@@ -20,7 +20,7 @@ function PetSelect({ petOptions, initSelectedPet = "" }: Props) {
       <Label className="text-xl font-bold">Pet</Label>
       <StyledSelect
         required={true}
-        options={petOptions}
+        optionsJSX={petOptions}
         size="large"
         id={id}
         placeholder="--Select a pet--"

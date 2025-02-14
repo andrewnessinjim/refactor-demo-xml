@@ -1,7 +1,12 @@
 import PetSelect from "@/components/PetSelect";
 import PetSelectOptions from "@/components/PetSelect/PetSelectOptions";
 
-export default async function PetTemplate({ params, children }) {
+interface Props {
+  params: Promise<{ pet: string }>;
+  children: React.ReactNode;
+}
+
+export default async function PetLayout({ params, children }: Props) {
   const resolvedParams = await params;
   return (
     <>
