@@ -1,8 +1,3 @@
-export interface SubmissionMessageProps {
-  status: FormStatus;
-  message: string | null;
-}
-
 export interface SubmitButtonProps {
   status: FormStatus;
 }
