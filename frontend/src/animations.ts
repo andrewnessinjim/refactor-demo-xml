@@ -1,6 +1,4 @@
-import { MotionProps } from "motion/react";
-
-export const slideUpAnimation: MotionProps = {
+export const slideUpAnimation = {
   initial: {
     opacity: 0,
     translateY: 10,
