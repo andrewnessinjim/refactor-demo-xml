@@ -23,6 +23,46 @@ function reducer(formData: FormData, action: Action) {
   return updatedFormData;
 }
 
+function SubmitButton({ status }: SubmitButtonProps) {
+  return (
+    <button
+      type="submit"
+      className="py-2 px-12 mt-8 border-2 rounded-md text-slate-950 bg-slate-400 self-center"
+    >
+      {status === "loading" ? "..." : "Submit"}
+    </button>
+  );
+}
+
+function SubmissionMessage({ status, message }: SubmissionMessageProps) {
+  const isSuccess = status === "success";
+  const isError = status === "error";
+
+  return (
+    (isSuccess || isError) && (
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className={`${
+          isSuccess ? "text-green-600" : "text-red-600"
+        } max-w-[500px]`}
+      >
+        {message}
+      </motion.p>
+    )
+  );
+}
+
+function initializeFormData(petConfigData: Attribute[]): FormData {
+  const initialFormData: FormData = {};
+  petConfigData.forEach((attribute) => {
+    initialFormData[attribute.valueName] =
+      attribute.type === "boolean" ? "false" : "";
+  });
+  return initialFormData;
+}
+
 function PetForm({ petConfigData, pet }: Props) {
   const [status, setStatus] = React.useState<FormStatus>("editing");
   const [formData, dispatch] = React.useReducer(
@@ -65,6 +105,53 @@ function PetForm({ petConfigData, pet }: Props) {
     }
   }
 
+  function AttributeTypeBoolean({ attribute }: { attribute: Attribute }) {
+    return (
+      <BooleanRadioGroup
+        label={attribute.label}
+        value={formData[attribute.valueName] === "true"}
+        onChange={(isChecked) => {
+          setStatus("editing");
+          dispatch({
+            type: "update",
+            key: attribute.valueName,
+            value: isChecked,
+          });
+        }}
+      />
+    );
+  }
+
+  function AttributeTypeOptions({ attribute }: { attribute: Attribute }) {
+    return (
+      <AttributeSelect
+        label={attribute.label}
+        options={attribute.options}
+        value={formData[attribute.valueName]}
+        onChange={(value) => {
+          setStatus("editing");
+          dispatch({
+            type: "update",
+            key: attribute.valueName,
+            value: value,
+          });
+        }}
+      />
+    );
+  }
+
+  const ATTRIBUTE_COMPONENTS_MAP = {
+    options: AttributeTypeOptions,
+    boolean: AttributeTypeBoolean,
+  };
+
+  const renderAttributeComponent = (attribute: Attribute, index: number) => {
+    const AttributeComponent = ATTRIBUTE_COMPONENTS_MAP[attribute.type];
+    return AttributeComponent ? (
+      <AttributeComponent key={index} attribute={attribute} />
+    ) : null;
+  };
+
   return (
     <div>
       <motion.form
@@ -72,43 +159,7 @@ function PetForm({ petConfigData, pet }: Props) {
         className="flex flex-col gap-4 p-12 w-fit mx-auto"
         onSubmit={submitPetEnquiryRequest}
       >
-        {petConfigData.map((attribute, index) => {
-          if (attribute.type === "options") {
-            return (
-              <AttributeSelect
-                label={attribute.label}
-                key={index}
-                options={attribute.options}
-                value={formData[attribute.valueName]}
-                onChange={(value) => {
-                  setStatus("editing");
-                  dispatch({
-                    type: "update",
-                    key: attribute.valueName,
-                    value: value,
-                  });
-                }}
-              />
-            );
-          } else if (attribute.type === "boolean") {
-            return (
-              <BooleanRadioGroup
-                label={attribute.label}
-                key={index}
-                value={formData[attribute.valueName] === "true"}
-                onChange={(isChecked) => {
-                  console.log({ isChecked });
-                  setStatus("editing");
-                  dispatch({
-                    type: "update",
-                    key: attribute.valueName,
-                    value: isChecked,
-                  });
-                }}
-              />
-            );
-          }
-        })}
+        {petConfigData.map(renderAttributeComponent)}
         <SubmitButton status={status} />
       </motion.form>
       <AnimatePresence>
@@ -118,44 +169,4 @@ function PetForm({ petConfigData, pet }: Props) {
   );
 }
 
-function SubmitButton({ status }: SubmitButtonProps) {
-  return (
-    <button
-      type="submit"
-      className="py-2 px-12 mt-8 border-2 rounded-md text-slate-950 bg-slate-400 self-center"
-    >
-      {status === "loading" ? "..." : "Submit"}
-    </button>
-  );
-}
-
-function SubmissionMessage({ status, message }: SubmissionMessageProps) {
-  const isSuccess = status === "success";
-  const isError = status === "error";
-
-  return (
-    (isSuccess || isError) && (
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className={`${
-          isSuccess ? "text-green-600" : "text-red-600"
-        } max-w-[500px]`}
-      >
-        {message}
-      </motion.p>
-    )
-  );
-}
-
 export default PetForm;
-
-function initializeFormData(petConfigData: Attribute[]): FormData {
-  const initialFormData: FormData = {};
-  petConfigData.forEach((attribute) => {
-    initialFormData[attribute.valueName] =
-      attribute.type === "boolean" ? "false" : "";
-  });
-  return initialFormData;
-}

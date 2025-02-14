@@ -30,15 +30,7 @@ function StyledRadioGroup({ options, value, onChange }: Props) {
               id={itemId}
             >
               <RadioGroup.Indicator className="grid place-items-center w-full aspect-square rounded-full ">
-                <motion.div
-                  initial={{
-                    scale: 0,
-                  }}
-                  animate={{
-                    scale: 1,
-                  }}
-                  className="w-[50%] aspect-square rounded-full bg-slate-950"
-                />
+                <motion.div className="w-[50%] aspect-square rounded-full bg-slate-950" />
               </RadioGroup.Indicator>
             </RadioGroup.Item>
             <Label htmlFor={itemId}>{options[optionKey]}</Label>
