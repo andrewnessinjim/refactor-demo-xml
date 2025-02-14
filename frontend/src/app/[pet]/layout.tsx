@@ -1,5 +1,7 @@
 import PetSelect from "@/components/PetSelect";
 import PetSelectOptions from "@/components/PetSelect/PetSelectOptions";
+import Image from "next/image";
+import React from "react";
 
 interface Props {
   params: Promise<{ pet: string }>;
@@ -14,7 +16,13 @@ export default async function PetLayout({ params, children }: Props) {
         petOptions={<PetSelectOptions />}
         initSelectedPet={resolvedParams.pet}
       />
-      {children}
+      <React.Suspense fallback={<Fallback />}>{children}</React.Suspense>
     </>
   );
 }
+
+const Fallback = () => (
+  <div className="p-12">
+    <Image src="/spinner.gif" alt="loading..." width={24} height={24} />
+  </div>
+);

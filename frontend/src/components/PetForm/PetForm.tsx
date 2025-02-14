@@ -14,11 +14,12 @@ import {
   SubmissionMessageProps,
   SubmitButtonProps,
 } from "./types";
+import submitPetEnquiryRequest from "./submitPetEnquiryRequest";
 
 function reducer(formData: FormData, action: Action) {
   const updatedFormData = {
     ...formData,
-    [action.key]: action.value?.toString(),
+    [action.key]: action.value,
   };
   return updatedFormData;
 }
@@ -71,29 +72,18 @@ function PetForm({ petConfigData, pet }: Props) {
   );
   const [message, setMessage] = React.useState<null | string>(null);
 
-  async function submitPetEnquiryRequest(e: React.SyntheticEvent) {
+  async function onPetEnquirySubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setStatus("loading");
-    const petEnquiryUrl = "http://localhost:4000/petEnquiry";
+
     const petEnquiryPayload = {
       pet,
       ...formData,
     };
-
     try {
-      const response = await fetch(petEnquiryUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(petEnquiryPayload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const petEnquiryResponse = await response.json();
+      const petEnquiryResponse = await submitPetEnquiryRequest(
+        petEnquiryPayload
+      );
       setStatus("success");
       setMessage(
         `Enquiry submitted successfully. Please note your acknowledgement number for future reference: ${petEnquiryResponse.requestId}`
@@ -105,19 +95,21 @@ function PetForm({ petConfigData, pet }: Props) {
     }
   }
 
+  function updateFormData(valueName: string, value: string | boolean | number) {
+    setStatus("editing");
+    dispatch({
+      type: "update",
+      key: valueName,
+      value: value,
+    });
+  }
+
   function AttributeTypeBoolean({ attribute }: { attribute: Attribute }) {
     return (
       <BooleanRadioGroup
         label={attribute.label}
-        value={formData[attribute.valueName] === "true"}
-        onChange={(isChecked) => {
-          setStatus("editing");
-          dispatch({
-            type: "update",
-            key: attribute.valueName,
-            value: isChecked,
-          });
-        }}
+        value={formData[attribute.valueName] as boolean}
+        onChange={(isChecked) => updateFormData(attribute.valueName, isChecked)}
       />
     );
   }
@@ -127,15 +119,8 @@ function PetForm({ petConfigData, pet }: Props) {
       <AttributeSelect
         label={attribute.label}
         options={attribute.options}
-        value={formData[attribute.valueName]}
-        onChange={(value) => {
-          setStatus("editing");
-          dispatch({
-            type: "update",
-            key: attribute.valueName,
-            value: value,
-          });
-        }}
+        value={formData[attribute.valueName] as string}
+        onChange={(value) => updateFormData(attribute.valueName, value)}
       />
     );
   }
@@ -157,7 +142,7 @@ function PetForm({ petConfigData, pet }: Props) {
       <motion.form
         {...slideUpAnimation}
         className="flex flex-col gap-4 p-12 w-fit mx-auto"
-        onSubmit={submitPetEnquiryRequest}
+        onSubmit={onPetEnquirySubmit}
       >
         {petConfigData.map(renderAttributeComponent)}
         <SubmitButton status={status} />
