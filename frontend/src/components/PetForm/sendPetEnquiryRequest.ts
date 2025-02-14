@@ -1,4 +1,4 @@
-async function submitPetEnquiryRequest(petEnquiryPayload: object) {
+async function sendPetEnquiryRequest(petEnquiryPayload: object) {
   const petEnquiryUrl = "http://localhost:4000/petEnquiry";
 
   const response = await fetch(petEnquiryUrl, {
@@ -16,4 +16,4 @@ async function submitPetEnquiryRequest(petEnquiryPayload: object) {
   return await response.json();
 }
 
-export default submitPetEnquiryRequest;
+export default sendPetEnquiryRequest;

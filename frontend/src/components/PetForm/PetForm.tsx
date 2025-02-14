@@ -11,10 +11,10 @@ import {
   FormData,
   FormStatus,
   Props,
-  SubmissionMessageProps,
   SubmitButtonProps,
 } from "./types";
-import submitPetEnquiryRequest from "./submitPetEnquiryRequest";
+import sendPetEnquiryRequest from "./sendPetEnquiryRequest";
+import { ErrorMessage, SuccessMessage } from "./SubmissionMessage";
 
 function reducer(formData: FormData, action: Action) {
   const updatedFormData = {
@@ -35,26 +35,6 @@ function SubmitButton({ status }: SubmitButtonProps) {
   );
 }
 
-function SubmissionMessage({ status, message }: SubmissionMessageProps) {
-  const isSuccess = status === "success";
-  const isError = status === "error";
-
-  return (
-    (isSuccess || isError) && (
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className={`${
-          isSuccess ? "text-green-600" : "text-red-600"
-        } max-w-[500px]`}
-      >
-        {message}
-      </motion.p>
-    )
-  );
-}
-
 function initializeFormData(petConfigData: Attribute[]): FormData {
   const initialFormData: FormData = {};
   petConfigData.forEach((attribute) => {
@@ -70,10 +50,12 @@ function PetForm({ petConfigData, pet }: Props) {
     reducer,
     initializeFormData(petConfigData)
   );
-  const [message, setMessage] = React.useState<null | string>(null);
 
-  async function onPetEnquirySubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
+  const [successReferenceId, setSuccessReferenceId] = React.useState<
+    null | string
+  >(null);
+
+  async function processPetEnquiryRequest() {
     setStatus("loading");
 
     const petEnquiryPayload = {
@@ -81,18 +63,18 @@ function PetForm({ petConfigData, pet }: Props) {
       ...formData,
     };
     try {
-      const petEnquiryResponse = await submitPetEnquiryRequest(
-        petEnquiryPayload
-      );
+      const petEnquiryResponse = await sendPetEnquiryRequest(petEnquiryPayload);
       setStatus("success");
-      setMessage(
-        `Enquiry submitted successfully. Please note your acknowledgement number for future reference: ${petEnquiryResponse.requestId}`
-      );
+      setSuccessReferenceId(petEnquiryResponse.requestId);
     } catch (error) {
       console.error(error);
+      setSuccessReferenceId(null);
       setStatus("error");
-      setMessage("Something went wrong! Please try again!");
     }
+  }
+  async function onPetEnquirySubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+    processPetEnquiryRequest();
   }
 
   function updateFormData(valueName: string, value: string | boolean | number) {
@@ -148,7 +130,12 @@ function PetForm({ petConfigData, pet }: Props) {
         <SubmitButton status={status} />
       </motion.form>
       <AnimatePresence>
-        <SubmissionMessage status={status} message={message} />
+        {status === "success" && (
+          <SuccessMessage successReferenceId={successReferenceId} />
+        )}
+        {status === "error" && (
+          <ErrorMessage processPetEnquiryRequest={processPetEnquiryRequest} />
+        )}
       </AnimatePresence>
     </div>
   );
