@@ -2,19 +2,19 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import AttributeSelect from "../AttributeSelect";
-import BooleanRadioGroup from "../BooleanRadioGroup";
 import { slideUpAnimation } from "@/animations";
 import {
   Action,
   Attribute,
   FormData,
   FormStatus,
+  FormValue,
   Props,
   SubmitButtonProps,
 } from "./types";
 import sendPetEnquiryRequest from "./sendPetEnquiryRequest";
 import { ErrorMessage, SuccessMessage } from "./SubmissionMessage";
+import AttributeComponent from "./AttributeComponent";
 
 function reducer(formData: FormData, action: Action) {
   const updatedFormData = {
@@ -72,12 +72,13 @@ function PetForm({ petConfigData, pet }: Props) {
       setStatus("error");
     }
   }
+
   async function onPetEnquirySubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     processPetEnquiryRequest();
   }
 
-  function updateFormData(valueName: string, value: string | boolean | number) {
+  function updateFormData(valueName: string, value: FormValue) {
     setStatus("editing");
     dispatch({
       type: "update",
@@ -86,39 +87,6 @@ function PetForm({ petConfigData, pet }: Props) {
     });
   }
 
-  function AttributeTypeBoolean({ attribute }: { attribute: Attribute }) {
-    return (
-      <BooleanRadioGroup
-        label={attribute.label}
-        value={formData[attribute.valueName] as boolean}
-        onChange={(isChecked) => updateFormData(attribute.valueName, isChecked)}
-      />
-    );
-  }
-
-  function AttributeTypeOptions({ attribute }: { attribute: Attribute }) {
-    return (
-      <AttributeSelect
-        label={attribute.label}
-        options={attribute.options}
-        value={formData[attribute.valueName] as string}
-        onChange={(value) => updateFormData(attribute.valueName, value)}
-      />
-    );
-  }
-
-  const ATTRIBUTE_COMPONENTS_MAP = {
-    options: AttributeTypeOptions,
-    boolean: AttributeTypeBoolean,
-  };
-
-  const renderAttributeComponent = (attribute: Attribute, index: number) => {
-    const AttributeComponent = ATTRIBUTE_COMPONENTS_MAP[attribute.type];
-    return AttributeComponent ? (
-      <AttributeComponent key={index} attribute={attribute} />
-    ) : null;
-  };
-
   return (
     <div>
       <motion.form
@@ -126,7 +94,14 @@ function PetForm({ petConfigData, pet }: Props) {
         className="flex flex-col gap-4 p-12 w-fit mx-auto"
         onSubmit={onPetEnquirySubmit}
       >
-        {petConfigData.map(renderAttributeComponent)}
+        {petConfigData.map((attribute, index) => (
+          <AttributeComponent
+            key={index}
+            attribute={attribute}
+            value={formData[attribute.valueName]}
+            updateFormData={updateFormData}
+          />
+        ))}
         <SubmitButton status={status} />
       </motion.form>
       <AnimatePresence>
