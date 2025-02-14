@@ -22,9 +22,10 @@ export interface Props {
 export interface Action {
   type: "update";
   key: string;
-  value: string | boolean | number;
+  value: FormValue;
 }
 
-export type FormData = { [key: string]: string | boolean | number };
+export type FormValue = string | boolean | number;
+export type FormData = { [key: string]: FormValue };
 
 export type FormStatus = "editing" | "success" | "error" | "loading";
