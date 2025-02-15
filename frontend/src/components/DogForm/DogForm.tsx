@@ -114,7 +114,7 @@ function DogForm() {
           onChange={(isChecked) => updateFormData("isDogTrained", isChecked)}
         />
         <AttributeSelect
-          label="Size"
+          label="Approximate Age"
           options={ageOptions}
           value={formData.dogAge}
           onChange={(value) => updateFormData("dogAge", value)}
