@@ -2,7 +2,7 @@ const mongoClient = require("../db");
 
 const petsConfigCol = mongoClient
   .db("petsEnquiry")
-  .collection("petsConfiguration");
+  .collection("petsConfigurationGood");
 
 async function getPetListForUI() {
   const options = {
