@@ -2,7 +2,7 @@ const mongoClient = require("../db");
 
 const petEnquiryRequestsCol = mongoClient
   .db("petsEnquiry")
-  .collection("petEnquiryRequests");
+  .collection("petEnquiryRequestsBad");
 
 async function save(petEnquiryUiPayload) {
   const result = await petEnquiryRequestsCol.insertOne({
