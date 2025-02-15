@@ -10,7 +10,7 @@ export function SuccessMessage({
     <GeneralMessage>
       <p className="text-green-600">
         Enquiry submitted successfully. Please note your acknowledgement number
-        for future reference: ${successReferenceId}`
+        for future reference: <strong>{successReferenceId}</strong>
       </p>
     </GeneralMessage>
   );
