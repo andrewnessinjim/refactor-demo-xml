@@ -2,16 +2,11 @@ import AttributeSelect from "../AttributeSelect";
 import BooleanRadioGroup from "../BooleanRadioGroup";
 import { Attribute, FormValue } from "./types";
 
-interface AttributeTypeProps {
-  attribute: Attribute;
-  value: FormValue;
-  updateFormData: (valueName: string, value: FormValue) => void;
-}
-function AttributeTypeBoolean({
+function BooleanAttributeComponent({
   attribute,
   value,
   updateFormData,
-}: AttributeTypeProps) {
+}: AttributeComponentProps) {
   return (
     <BooleanRadioGroup
       label={attribute.label}
@@ -21,11 +16,11 @@ function AttributeTypeBoolean({
   );
 }
 
-function AttributeTypeOptions({
+function OptionsAttributeComponent({
   attribute,
   value,
   updateFormData,
-}: AttributeTypeProps) {
+}: AttributeComponentProps) {
   return (
     <AttributeSelect
       label={attribute.label}
@@ -37,8 +32,8 @@ function AttributeTypeOptions({
 }
 
 const ATTRIBUTE_COMPONENTS_MAP = {
-  options: AttributeTypeOptions,
-  boolean: AttributeTypeBoolean,
+  options: OptionsAttributeComponent,
+  boolean: BooleanAttributeComponent,
 };
 
 interface AttributeComponentProps {
