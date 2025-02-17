@@ -9,9 +9,9 @@ import {
   FormStatus,
   FormValue,
   SubmitButtonProps,
-} from "../PetForm/types";
+} from "../../util/types";
 import { slideUpAnimation } from "@/util/animations";
-import { ErrorMessage, SuccessMessage } from "./SubmissionMessage";
+import { ErrorMessage, SuccessMessage } from "@/components/SubmissionMessage";
 import AttributeSelect from "../AttributeSelect";
 import BooleanRadioGroup from "../BooleanRadioGroup";
 
