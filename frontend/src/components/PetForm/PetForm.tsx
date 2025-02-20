@@ -39,7 +39,7 @@ function initializeFormData(petConfigData: Attribute[]): FormData {
   const initialFormData: FormData = {};
   petConfigData.forEach((attribute) => {
     initialFormData[attribute.valueName] =
-      attribute.type === "boolean" ? "false" : "";
+      attribute.type === "boolean" ? false : "";
   });
   return initialFormData;
 }
