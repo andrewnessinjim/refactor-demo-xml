@@ -100,3 +100,18 @@ appDB.petsConfigurationGood.insertMany([
     ],
   },
 ]);
+
+appDB.petsConfigurationBad.insertMany([
+  {
+    label: "Dog",
+    value: "dog",
+  },
+  {
+    label: "Parrot",
+    value: "parrot",
+  },
+  {
+    label: "Fish",
+    value: "fish",
+  },
+]);
