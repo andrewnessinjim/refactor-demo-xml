@@ -17,8 +17,6 @@ async function getPetListForUI() {
   return petListForUI;
 }
 
-
 module.exports = {
   getPetListForUI,
-  getConfigForPet,
 };
