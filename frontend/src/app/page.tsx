@@ -1,8 +1,7 @@
-import PetSelect from "@/components/PetSelect";
-import PetSelectOptions from "@/components/PetSelect/PetSelectOptions";
+import PetSelectDataWrapper from "@/components/PetSelectDataWrapper";
 
 async function Home() {
-  return <PetSelect petOptions={<PetSelectOptions />} />;
+  return <PetSelectDataWrapper currentPath={"/"} />;
 }
 
 export default Home;

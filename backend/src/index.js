@@ -24,11 +24,6 @@ router.get("/config/petList", async (ctx) => {
   ctx.body = await getPetListForUI();
 });
 
-router.get("/config/pet/:pet", async (ctx) => {
-  const { pet } = ctx.params;
-  ctx.body = await getConfigForPet(pet);
-});
-
 router.post("/petEnquiry", async (ctx) => {
   const requestBody = ctx.request.body;
   ctx.body = await processPetEnquiry(requestBody);

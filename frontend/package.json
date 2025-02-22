@@ -16,7 +16,8 @@
     "motion": "^12.0.0-alpha.2",
     "next": "15.1.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-error-boundary": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

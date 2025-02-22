@@ -3,24 +3,39 @@ import React from "react";
 import DogForm from "@/components/DogForm";
 import ParrotForm from "@/components/ParrotForm";
 import FishForm from "@/components/FishForm";
+import PetSelectDataWrapper from "@/components/PetSelectDataWrapper";
+import Spinner from "@/components/Spinner";
 
 interface Props {
   params: Promise<{ pet: string }>;
 }
 
-async function Pet({ params }: Props) {
+async function PetPage({ params }: Props) {
   const { pet } = await params;
 
+  let FormComponent;
   switch (pet) {
     case "dog":
-      return <DogForm />;
+      FormComponent = DogForm;
+      break;
     case "parrot":
-      return <ParrotForm />;
+      FormComponent = ParrotForm;
+      break;
     case "fish":
-      return <FishForm />;
+      FormComponent = FishForm;
+      break;
     default:
       throw new Error(`Unrecognized pet: ${pet}`);
   }
+
+  return (
+    <>
+      <PetSelectDataWrapper initSelectedPet={pet} currentPath={`/${pet}`} />
+      <React.Suspense fallback={<Spinner />}>
+        <FormComponent />
+      </React.Suspense>
+    </>
+  );
 }
 
-export default Pet;
+export default PetPage;
