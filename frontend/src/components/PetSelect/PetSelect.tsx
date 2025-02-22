@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 import StyledSelect from "../Select";
 import { Label } from "@radix-ui/react-label";
 
-interface Props {
+export interface PetSelectProps {
   petOptions: JSX.Element;
+  initSelectedPet?: string;
 }
 
-function PetSelect({ petOptions }: Props) {
-  const [selectedPet, setSelectedPet] = React.useState("");
+function PetSelect({ petOptions, initSelectedPet = "" }: PetSelectProps) {
+  const [selectedPet, setSelectedPet] = React.useState(initSelectedPet);
   const router = useRouter();
   const id = React.useId() + "pet-select";
 
@@ -19,7 +20,7 @@ function PetSelect({ petOptions }: Props) {
       <Label className="text-xl font-bold">Pet</Label>
       <StyledSelect
         required={true}
-        options={petOptions}
+        optionsJSX={petOptions}
         size="large"
         id={id}
         placeholder="--Select a pet--"

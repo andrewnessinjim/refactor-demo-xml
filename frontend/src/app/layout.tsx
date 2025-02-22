@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import * as motion from "motion/react-client";
-import PetSelect from "@/components/PetSelect";
-import PetSelectOptions from "@/components/PetSelect/PetSelectOptions";
 import { slideUpAnimation } from "@/animations";
+import Spacer from "@/components/Spacer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +31,6 @@ const transparentToOpaqueAnimation = {
 
 export default async function RootLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -46,34 +44,13 @@ export default async function RootLayout({
             {...slideUpAnimation}
             className="flex flex-col justify-center items-center"
           >
-            <TitleTopSpacer />
+            <Spacer size="clamp(2.5rem, 10vw, 5rem)" />
             <h1 className="text-fluid-h1 text-center">Pet Enquiry</h1>
-            <TitleBottomSpacer />
-            <PetSelect petOptions={<PetSelectOptions />} />
+            <Spacer size="24px" />
             {children}
           </motion.section>
         </motion.div>
       </motion.body>
     </html>
-  );
-}
-
-function TitleTopSpacer() {
-  return (
-    <div
-      style={{
-        height: "clamp(2.5rem, 10vw, 5rem)",
-      }}
-    ></div>
-  );
-}
-
-function TitleBottomSpacer() {
-  return (
-    <div
-      style={{
-        height: "24px",
-      }}
-    ></div>
   );
 }

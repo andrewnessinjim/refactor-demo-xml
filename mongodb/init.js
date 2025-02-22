@@ -14,7 +14,7 @@ db.createUser({
 db.auth("petsEnquiry-user", "petsEnquiry-pass");
 const appDB = db.getSiblingDB(DB_NAMESPACE);
 
-appDB.petsConfiguration.insertMany([
+appDB.petsConfigurationGood.insertMany([
   {
     label: "Dog",
     value: "dog",
@@ -99,31 +99,19 @@ appDB.petsConfiguration.insertMany([
       },
     ],
   },
+]);
+
+appDB.petsConfigurationBad.insertMany([
   {
-    label: "Hamster",
-    value: "hamster",
-    attributes: [
-      {
-        label: "Color",
-        valueName: "hamsterColor",
-        type: "options",
-        options: [
-          { label: "Black", value: "BLACK006" },
-          { label: "Brown", value: "BROWN007" },
-          { label: "White", value: "WHITE008" },
-          { label: "Mixed", value: "MIXED009" },
-        ],
-      },
-      {
-        label: "Needs a wheel?",
-        valueName: "hamsterNeedsWheel",
-        type: "boolean",
-      },
-      {
-        label: "Lives alone?",
-        valueName: "hamsterNeedsToBeAlone",
-        type: "boolean",
-      },
-    ],
+    label: "Dog",
+    value: "dog",
+  },
+  {
+    label: "Parrot",
+    value: "parrot",
+  },
+  {
+    label: "Fish",
+    value: "fish",
   },
 ]);

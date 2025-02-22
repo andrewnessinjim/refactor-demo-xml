@@ -3,14 +3,15 @@
 import * as React from "react";
 import StyledRadioGroup from "../StyledRadioGroup";
 
-interface Props {
+export interface BooleanRadioGroupProps {
   label: string;
-  value: boolean | undefined;
+  value: boolean;
   onChange: (isChecked: boolean) => void;
 }
 
-function BooleanRadioGroup({ label, value, onChange }: Props) {
-  let boolToStringValue: string = "";
+function BooleanRadioGroup({ label, value, onChange }: BooleanRadioGroupProps) {
+  let boolToStringValue: string = ""; //Because the underlying RadioGroup component expects a string value
+
   if (typeof value === "boolean") {
     boolToStringValue = value ? "yes" : "no";
   }

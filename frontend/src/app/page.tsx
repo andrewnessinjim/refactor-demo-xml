@@ -1,5 +1,7 @@
+import PetSelectDataWrapper from "@/components/PetSelectDataWrapper";
+
 async function Home() {
-  return <></>;
+  return <PetSelectDataWrapper currentPath={"/"} />;
 }
 
 export default Home;

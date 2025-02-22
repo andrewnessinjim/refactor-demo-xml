@@ -1,12 +1,23 @@
 import React from "react";
-import PetForm from "@/components/PetForm";
+import PetFormDataWrapper from "@/components/PetFormDataWrapper";
+import PetSelectDataWrapper from "@/components/PetSelectDataWrapper";
+import Spinner from "@/components/Spinner";
 
-async function Pet({ params }) {
-  const { pet } = await params;
-  const data = await fetch(`http://localhost:4000/config/pet/${pet}`);
-  const petConfigData = await data.json();
-
-  return <PetForm petConfigData={petConfigData} pet={pet}/>;
+interface Props {
+  params: Promise<{ pet: string }>;
 }
 
-export default Pet;
+async function PetPage({ params }: Props) {
+  const { pet } = await params;
+
+  return (
+    <>
+      <PetSelectDataWrapper initSelectedPet={pet} currentPath={`/${pet}`} />
+      <React.Suspense fallback={<Spinner />}>
+        <PetFormDataWrapper pet={pet} />
+      </React.Suspense>
+    </>
+  );
+}
+
+export default PetPage;

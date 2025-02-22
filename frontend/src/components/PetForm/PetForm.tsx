@@ -1,84 +1,90 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
-import AttributeSelect from "../AttributeSelect";
-import BooleanRadioGroup from "../BooleanRadioGroup";
+import { AnimatePresence, motion } from "motion/react";
 import { slideUpAnimation } from "@/animations";
-
-interface Option {
-  label: string;
-  value: string;
-}
-interface Attribute {
-  label: string;
-  type: "options" | "boolean";
-  options: Option[];
-  valueName: string;
-}
-interface Props {
-  petConfigData: Attribute[];
-  pet: string;
-}
-
-interface Action {
-  type: "update";
-  key: string;
-  value: any;
-}
-
-type FormData = { [key: string]: string | boolean };
-
-type FormStatus = "editing" | "success" | "error" | "loading";
+import {
+  Action,
+  Attribute,
+  FormData,
+  FormStatus,
+  FormValue,
+  Props,
+  SubmitButtonProps,
+} from "./types";
+import sendPetEnquiryRequest from "./sendPetEnquiryRequest";
+import { ErrorMessage, SuccessMessage } from "./SubmissionMessage";
+import AttributeComponent from "./AttributeComponent";
 
 function reducer(formData: FormData, action: Action) {
-  return {
+  const updatedFormData = {
     ...formData,
     [action.key]: action.value,
   };
+  return updatedFormData;
+}
+
+function SubmitButton({ status }: SubmitButtonProps) {
+  return (
+    <button
+      type="submit"
+      className="py-2 px-12 mt-8 border-2 rounded-md text-slate-950 bg-slate-400 self-center"
+    >
+      {status === "loading" ? "..." : "Submit"}
+    </button>
+  );
+}
+
+function initializeFormData(petConfigData: Attribute[]): FormData {
+  const initialFormData: FormData = {};
+  petConfigData.forEach((attribute) => {
+    initialFormData[attribute.valueName] =
+      attribute.type === "boolean" ? false : "";
+  });
+  return initialFormData;
 }
 
 function PetForm({ petConfigData, pet }: Props) {
   const [status, setStatus] = React.useState<FormStatus>("editing");
-  const [formData, dispatch] = React.useReducer(reducer, {});
-  const [message, setMessage] = React.useState<null | string>(null);
+  const [formData, dispatch] = React.useReducer(
+    reducer,
+    initializeFormData(petConfigData)
+  );
 
-  const isSuccess = status === "success";
-  const isError = status === "error";
+  const [successReferenceId, setSuccessReferenceId] = React.useState<
+    null | string
+  >(null);
 
-  async function submitPetEnquiryRequest(e: React.SyntheticEvent) {
-    e.preventDefault();
+  async function processPetEnquiryRequest() {
     setStatus("loading");
-    console.log("Submitted...");
-    const petEnquiryUrl = "http://localhost:4000/petEnquiry";
+
     const petEnquiryPayload = {
       pet,
       ...formData,
     };
-
     try {
-      const response = await fetch(petEnquiryUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(petEnquiryPayload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const petEnquiryResponse = await response.json();
+      const petEnquiryResponse = await sendPetEnquiryRequest(petEnquiryPayload);
       setStatus("success");
-      setMessage(
-        `Enquiry submitted successfully. Please note your acknowledgement number for future reference: ${petEnquiryResponse.requestId}`
-      );
+      setSuccessReferenceId(petEnquiryResponse.requestId);
     } catch (error) {
       console.error(error);
+      setSuccessReferenceId(null);
       setStatus("error");
-      setMessage("Something went wrong! Please try again!");
     }
+  }
+
+  async function onPetEnquirySubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+    processPetEnquiryRequest();
+  }
+
+  function updateFormData(valueName: string, value: FormValue) {
+    setStatus("editing");
+    dispatch({
+      type: "update",
+      key: valueName,
+      value: value,
+    });
   }
 
   return (
@@ -86,60 +92,26 @@ function PetForm({ petConfigData, pet }: Props) {
       <motion.form
         {...slideUpAnimation}
         className="flex flex-col gap-4 p-12 w-fit mx-auto"
-        onSubmit={submitPetEnquiryRequest}
+        onSubmit={onPetEnquirySubmit}
       >
-        {petConfigData.map((attribute, index) => {
-          if (attribute.type === "options") {
-            return (
-              <AttributeSelect
-                label={attribute.label}
-                key={index}
-                options={attribute.options}
-                value={formData[attribute.valueName]}
-                onChange={(value) => {
-                  setStatus("editing");
-                  dispatch({
-                    type: "update",
-                    key: attribute.valueName,
-                    value: value,
-                  });
-                }}
-              />
-            );
-          } else if (attribute.type === "boolean") {
-            return (
-              <BooleanRadioGroup
-                label={attribute.label}
-                key={index}
-                value={formData[attribute.valueName]}
-                onChange={(isChecked) => {
-                  setStatus("editing");
-                  dispatch({
-                    type: "update",
-                    key: attribute.valueName,
-                    value: isChecked,
-                  });
-                }}
-              />
-            );
-          }
-        })}
-        <button
-          type="submit"
-          className="py-2 px-12 mt-8 border-2 rounded-md text-slate-950 bg-slate-400 self-center"
-        >
-          {status === "loading" ? "..." : "Submit"}
-        </button>
+        {petConfigData.map((attribute, index) => (
+          <AttributeComponent
+            key={index}
+            attribute={attribute}
+            value={formData[attribute.valueName]}
+            updateFormData={updateFormData}
+          />
+        ))}
+        <SubmitButton status={status} />
       </motion.form>
-      {(isSuccess || isError) && (
-        <p
-          className={`${
-            isSuccess ? "text-green-600" : "text-red-600"
-          } max-w-[500px]`}
-        >
-          {message}
-        </p>
-      )}
+      <AnimatePresence>
+        {status === "success" && (
+          <SuccessMessage successReferenceId={successReferenceId} />
+        )}
+        {status === "error" && (
+          <ErrorMessage processPetEnquiryRequest={processPetEnquiryRequest} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

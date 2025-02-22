@@ -7,13 +7,13 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/16/solid";
 import { motion } from "motion/react";
 
 export interface SelectProps {
-  options: JSX.Element;
+  optionsJSX: JSX.Element;
   placeholder: string;
   size: "regular" | "large";
   id: string;
   value: string;
   onChange: (value: string) => void;
-  required: boolean;
+  required?: boolean;
 }
 
 const SIZES = {
@@ -37,7 +37,7 @@ const SIZES = {
   },
 };
 function StyledSelect({
-  options,
+  optionsJSX,
   placeholder,
   size,
   id,
@@ -92,7 +92,7 @@ function StyledSelect({
             <Select.Viewport
               className={`bg-slate-800 ${sizeConfig.viewportPadding} rounded-md ${sizeConfig.width}`}
             >
-              {options}
+              {optionsJSX}
             </Select.Viewport>
             <Select.ScrollDownButton />
             <Select.Arrow />
