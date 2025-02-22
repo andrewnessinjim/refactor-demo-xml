@@ -21,12 +21,11 @@ app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 
 router.get("/config/petList", async (ctx) => {
-  // throw new Error("Simulated error!");
   ctx.body = await getPetListForUI();
+  console.log("Success")
 });
 
 router.get("/config/pet/:pet", async (ctx) => {
-  // throw new Error("Simulated error!");
   const { pet } = ctx.params;
   ctx.body = await getConfigForPet(pet);
 });

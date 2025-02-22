@@ -9,10 +9,9 @@ interface Props {
 
 async function PetPage({ params }: Props) {
   const { pet } = await params;
-
   return (
     <>
-      <PetSelectDataWrapper initSelectedPet={pet} currentPath={`/${pet}`} />
+      <PetSelectDataWrapper initSelectedPet={pet} />
       <React.Suspense fallback={<Spinner />}>
         <PetFormDataWrapper pet={pet} />
       </React.Suspense>
