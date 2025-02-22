@@ -17,13 +17,6 @@ async function getPetListForUI() {
   return petListForUI;
 }
 
-async function getConfigForPet(pet) {
-  const options = {
-    projection: { attributes: 1, _id: 0 },
-  };
-
-  return (await petsConfigCol.findOne({ value: pet }, options)).attributes;
-}
 
 module.exports = {
   getPetListForUI,

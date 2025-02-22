@@ -4,7 +4,6 @@ import DogForm from "@/components/DogForm";
 import ParrotForm from "@/components/ParrotForm";
 import FishForm from "@/components/FishForm";
 import PetSelectDataWrapper from "@/components/PetSelectDataWrapper";
-import Spinner from "@/components/Spinner";
 
 interface Props {
   params: Promise<{ pet: string }>;
@@ -31,9 +30,7 @@ async function PetPage({ params }: Props) {
   return (
     <>
       <PetSelectDataWrapper initSelectedPet={pet} currentPath={`/${pet}`} />
-      <React.Suspense fallback={<Spinner />}>
-        <FormComponent />
-      </React.Suspense>
+      <FormComponent />
     </>
   );
 }
