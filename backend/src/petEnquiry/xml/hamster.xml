@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<petSearchRequest xmlns:f="http://www.w3.org/2005/xpath-functions">
+    <metadata>
+        <requestTimestamp>#timestamp#</requestTimestamp>
+        <correlationId>#requestId#</correlationId>
+    </metadata>
+    <data>
+        <searchCriteria>
+            <criterion>
+                <key>pet</key>
+                <value>#pet#</value>
+            </criterion>
+            <criterion>
+                <key>hamsterColor</key>
+                <value>#hamsterColor#</value>
+            </criterion>
+            <criterion>
+                <key>hamsterNeedsWheel</key>
+                <value>#hamsterNeedsWheel#</value>
+            </criterion>
+            <criterion>
+                <key>hamsterNeedsToBeAlone</key>
+                <value>#hamsterNeedsToBeAlone#</value>
+            </criterion>
+        </searchCriteria>
+    </data>
+</petSearchRequest>
