@@ -4,6 +4,7 @@ import DogForm from "@/components/DogForm";
 import ParrotForm from "@/components/ParrotForm";
 import FishForm from "@/components/FishForm";
 import PetSelectDataWrapper from "@/components/PetSelectDataWrapper";
+import HamsterForm from "@/components/HamsterForm";
 
 interface Props {
   params: Promise<{ pet: string }>;
@@ -22,6 +23,9 @@ async function PetPage({ params }: Props) {
       break;
     case "fish":
       FormComponent = FishForm;
+      break;
+    case "hamster":
+      FormComponent = HamsterForm;
       break;
     default:
       throw new Error(`Unrecognized pet: ${pet}`);
