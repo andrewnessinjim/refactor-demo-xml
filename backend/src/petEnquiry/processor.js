@@ -3,9 +3,7 @@ const path = require("path");
 const { save } = require("./persistence");
 const { send: sendPetEnquiryRequest } = require("../rabbitmq");
 
-
 function uiPayloadToXMLPayload(uiPayload, requestId) {
-
   const sourcePath = path.join(__dirname, "xml", `${uiPayload.pet}.xml`);
   const sourceXML = fs.readFileSync(sourcePath, "utf-8");
   let xmlPayload = sourceXML.replace("#pet#", uiPayload.pet);
@@ -17,7 +15,6 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
     xmlPayload = xmlPayload.replace("#isDogTrained#", uiPayload.isDogTrained);
     xmlPayload = xmlPayload.replace("#dogAge#", uiPayload.dogAge);
     return xmlPayload;
-
   } else if (uiPayload.pet === "fish") {
     xmlPayload = xmlPayload.replace("#fishWater#", uiPayload.fishWater);
     xmlPayload = xmlPayload.replace(
@@ -29,7 +26,6 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
       uiPayload.fishNeedsFilter
     );
     return xmlPayload;
-
   } else if (uiPayload.pet === "parrot") {
     xmlPayload = xmlPayload.replace("#parrotColor#", uiPayload.parrotColor);
     xmlPayload = xmlPayload.replace("#canParrotTalk#", uiPayload.canParrotTalk);
@@ -37,6 +33,18 @@ function uiPayloadToXMLPayload(uiPayload, requestId) {
       "#parrotNeedsCage#",
       uiPayload.parrotNeedsCage
     );
+    return xmlPayload;
+  } else if (uiPayload.pet === "hamster") {
+    xmlPayload = xmlPayload.replace("#hamsterColor#", uiPayload.hamsterColor);
+    xmlPayload = xmlPayload.replace(
+      "#hamsterNeedsWheel#",
+      uiPayload.hamsterNeedsWheel
+    );
+    xmlPayload = xmlPayload.replace(
+      "#hamsterNeedsToBeAlone#",
+      uiPayload.hamsterNeedsToBeAlone
+    );
+
     return xmlPayload;
   }
 }
