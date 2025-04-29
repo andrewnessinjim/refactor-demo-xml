@@ -34,9 +34,9 @@ The requirement would usually contain the following information. In this example
 
 ### Request Type Information
 
-| New Request Type | UI Label | UI Possible Values | Backend Criteria Key | Backend Criteria Value |
-| ---------------- | -------- | ------------------ | -------------------- | ---------------------- |
-| **Hamster**      | Hamster  | NA                 | pet                  | hamster                |
+| New Request Type | UI Label |  Backend Criteria Key | Backend Criteria Value |
+| ---------------- | -------- |  -------------------- | ---------------------- |
+| **Hamster**      | Hamster  |  pet                  | hamster                |
 
 ### Attributes Information
 
